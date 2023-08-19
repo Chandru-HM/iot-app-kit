@@ -6,6 +6,26 @@ import { DashboardWidget } from '~/types';
 import { useGridSettings } from '~/components/actions/useGridSettings';
 import './component.css';
 
+function computeNewPosition(
+  initialPosition: XYCoord,
+  offsetDifference: XYCoord,
+  height: number,
+  width: number,
+  cellSize: number
+) {
+  // currently constrained within the bounds of the box
+  const { x: initialX, y: initialY } = initialPosition;
+  const { x: offsetX, y: offsetY } = offsetDifference;
+
+  const widthPixels = Math.round(width * cellSize);
+  const heightPixels = Math.round(height * cellSize);
+
+  const newX = Math.max(0, Math.min(initialX + offsetX, widthPixels));
+  const newY = Math.max(0, Math.min(initialY + offsetY, heightPixels));
+
+  return { x: newX, y: newY };
+}
+
 export const LineAnchor: React.FC<{
   style: CSSProperties;
   anchorType: 'start' | 'end';
@@ -24,19 +44,6 @@ export const LineAnchor: React.FC<{
   });
 
   const { cellSize } = useGridSettings();
-
-  function computeNewPosition(initialPosition: XYCoord, offsetDifference: XYCoord) {
-    const { x: initialX, y: initialY } = initialPosition;
-    const { x: offsetX, y: offsetY } = offsetDifference;
-
-    const widthPixels = Math.round(widget.width * cellSize);
-    const heightPixels = Math.round(widget.height * cellSize);
-
-    const newX = Math.max(0, Math.min(initialX + offsetX, widthPixels));
-    const newY = Math.max(0, Math.min(initialY + offsetY, heightPixels));
-
-    return { x: newX, y: newY } as XYCoord;
-  }
 
   const [{ diff, isDragging }, ref] = useDrag({
     type: 'LineAnchor',
@@ -60,36 +67,23 @@ export const LineAnchor: React.FC<{
   });
   useEffect(() => {
     if (isDragging && diff) {
-      let updatedWidget;
-      if (anchorType === 'start') {
-        const { x: newStartX, y: newStartY } = computeNewPosition(initialStartPointRef.current, diff);
-        updatedWidget = {
-          ...widget,
-          properties: {
-            ...widget.properties,
-            start: {
-              x: newStartX,
-              y: newStartY,
-            },
-          },
-        };
-      } else if (anchorType == 'end') {
-        const { x: newEndX, y: newEndY } = computeNewPosition(initialEndPointRef.current, diff);
-        updatedWidget = {
-          ...widget,
-          properties: {
-            ...widget.properties,
-            end: {
-              x: newEndX,
-              y: newEndY,
-            },
-          },
-        };
-      }
-      console.log(updatedWidget);
-      if (updatedWidget) {
-        updateWidget(updatedWidget);
-      }
+      const initialPoint = anchorType === 'start' ? initialStartPointRef.current : initialEndPointRef.current;
+
+      const { x, y } = computeNewPosition(initialPoint, diff, widget.height, widget.width, cellSize);
+      const updatedProperties = {
+        ...widget.properties,
+        [anchorType]: {
+          x,
+          y,
+        },
+      };
+
+      const updatedWidget = {
+        ...widget,
+        properties: updatedProperties,
+      };
+
+      updateWidget(updatedWidget);
     }
   }, [diff?.x, diff?.y]);
   return <div ref={ref} style={style} className='line-anchor' />;

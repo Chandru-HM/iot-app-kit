@@ -13,9 +13,6 @@ export const linePlugin: DashboardPlugin = {
         icon: LineSymbolIcon,
       },
       properties: () => ({
-        lineStyle: 'solid',
-        color: 'black',
-        thickness: 5,
         start: {
           x: 25,
           y: 200,
