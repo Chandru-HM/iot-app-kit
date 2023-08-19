@@ -1,10 +1,10 @@
 import React, { CSSProperties, useEffect, useRef } from 'react';
+import './component.css';
 import { LineWidget } from '~/customization/widgets/types';
-import { UpdateWidgetsAction } from '~/store/actions';
 import { XYCoord, useDrag } from 'react-dnd';
 import { DashboardWidget } from '~/types';
 import { useGridSettings } from '~/components/actions/useGridSettings';
-import './component.css';
+import { useWidgetActions } from '~/customization/hooks/useWidgetActions';
 
 function computeNewPosition(
   initialPosition: XYCoord,
@@ -26,12 +26,8 @@ function computeNewPosition(
   return { x: newX, y: newY };
 }
 
-export const LineAnchor: React.FC<{
-  style: CSSProperties;
-  anchorType: 'start' | 'end';
-  widget: LineWidget;
-  updateWidget: (widget: DashboardWidget) => UpdateWidgetsAction;
-}> = ({ style, anchorType, widget, updateWidget }) => {
+const useDragAndUpdate = (widget: LineWidget, anchorType: 'start' | 'end') => {
+  const { update: updateWidget } = useWidgetActions<DashboardWidget>();
   // These refs are needed because we want to remember the coordinates at the start of the drag event.
   // We don't want to recalculate the coordinates of the points on every render, only when the drag event completes.
   const initialStartPointRef = useRef({
@@ -86,5 +82,15 @@ export const LineAnchor: React.FC<{
       updateWidget(updatedWidget);
     }
   }, [diff?.x, diff?.y]);
-  return <div ref={ref} style={style} className='line-anchor' />;
+
+  return ref;
+};
+
+export const LineAnchor: React.FC<{
+  style: CSSProperties;
+  anchorType: 'start' | 'end';
+  widget: LineWidget;
+}> = ({ style, anchorType, widget }) => {
+  const dragRef = useDragAndUpdate(widget, anchorType);
+  return <div ref={dragRef} style={style} className='line-anchor' />;
 };
