@@ -2,13 +2,10 @@ import React, { CSSProperties } from 'react';
 import './component.css';
 import { LineWidget } from '~/customization/widgets/types';
 import { SVG_STROKE_DASHED, SVG_STROKE_DOTTED, SVG_STROKE_SOLID } from '../constants';
-import { useWidgetActions } from '~/customization/hooks/useWidgetActions';
-import { DashboardWidget } from '~/types';
 import { LineAnchor } from './lineAnchor/component';
 import { useIsSelected } from '~/customization/hooks/useIsSelected';
 
 const LineWidgetComponent: React.FC<LineWidget> = (widget) => {
-  const { update } = useWidgetActions<DashboardWidget>();
   const isSelected = useIsSelected(widget);
 
   const fitFull = {
@@ -52,7 +49,9 @@ const LineWidgetComponent: React.FC<LineWidget> = (widget) => {
 
   return (
     <div className='fit-full'>
-      {isSelected && <LineAnchor style={startAnchorStyle} anchorType='start' widget={widget} updateWidget={update} />}
+      {isSelected && (
+        <LineAnchor ariaLabel='line-start-anchor' style={startAnchorStyle} anchorType='start' widget={widget} />
+      )}
       <svg style={fitFull} pointerEvents='none'>
         <line
           x1={start.x}
@@ -64,7 +63,7 @@ const LineWidgetComponent: React.FC<LineWidget> = (widget) => {
           stroke-dasharray={strokeString}
         />
       </svg>
-      {isSelected && <LineAnchor style={endAnchorStyle} anchorType='end' widget={widget} updateWidget={update} />}
+      {isSelected && <LineAnchor ariaLabel='line-end-anchor' style={endAnchorStyle} anchorType='end' widget={widget} />}
     </div>
   );
 };
