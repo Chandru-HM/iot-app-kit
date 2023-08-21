@@ -90,8 +90,15 @@ export const LineAnchor: React.FC<{
   style: CSSProperties;
   anchorType: 'start' | 'end';
   widget: LineWidget;
-  ariaLabel: string;
-}> = ({ style, anchorType, widget, ariaLabel }) => {
+}> = ({ style, anchorType, widget }) => {
   const dragRef = useDragAndUpdate(widget, anchorType);
-  return <div aria-label={ariaLabel} ref={dragRef} style={style} className='line-anchor' />;
+  return (
+    <div
+      id='line-symbol-widget'
+      data-testid={'line-' + anchorType + '-anchor'}
+      ref={dragRef}
+      style={style}
+      className='line-anchor'
+    />
+  );
 };

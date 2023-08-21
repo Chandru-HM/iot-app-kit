@@ -49,9 +49,7 @@ const LineWidgetComponent: React.FC<LineWidget> = (widget) => {
 
   return (
     <div className='fit-full'>
-      {isSelected && (
-        <LineAnchor ariaLabel='line-start-anchor' style={startAnchorStyle} anchorType='start' widget={widget} />
-      )}
+      {isSelected && <LineAnchor style={startAnchorStyle} anchorType='start' widget={widget} />}
       <svg style={fitFull} pointerEvents='none'>
         <line
           x1={start.x}
@@ -63,7 +61,7 @@ const LineWidgetComponent: React.FC<LineWidget> = (widget) => {
           stroke-dasharray={strokeString}
         />
       </svg>
-      {isSelected && <LineAnchor ariaLabel='line-end-anchor' style={endAnchorStyle} anchorType='end' widget={widget} />}
+      {isSelected && <LineAnchor style={endAnchorStyle} anchorType='end' widget={widget} />}
     </div>
   );
 };

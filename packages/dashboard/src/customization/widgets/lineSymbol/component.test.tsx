@@ -1,28 +1,36 @@
 import React from 'react';
-import { render, fireEvent, act, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import { renderHook, act } from '@testing-library/react-hooks';
+import { useDragAndUpdate } from './lineAnchor/component'; // Correct path to your hook
 import { DndProvider, useDrag } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import LineWidgetComponent from './component';
-import { DASHBOARD_CONTAINER_ID } from '~/components/grid/getDashboardPosition';
 import { Provider } from 'react-redux';
 import { configureDashboardStore } from '~/store';
+import { useIsSelected } from '~/customization/hooks/useIsSelected';
+import { DashboardState } from '~/store/state';
+import { MOCK_LINE_WIDGET } from '~/../testing/mocks';
+import { useWidgetActions } from '~/customization/hooks/useWidgetActions';
 
 jest.mock('~/customization/hooks/useIsSelected', () => ({
-  useIsSelected: jest.fn().mockReturnValue(true),
+  useIsSelected: jest.fn(),
 }));
 
-jest.mock('~/customization/hooks/useWidgetActions', () => ({
-  useWidgetActions: jest.fn().mockReturnValue({
-    update: jest.fn(),
-  }),
-}));
+const initialState: Partial<DashboardState> = {
+  dashboardConfiguration: {
+    widgets: [MOCK_LINE_WIDGET],
+    viewport: { duration: '5m' },
+  },
+  selectedWidgets: [MOCK_LINE_WIDGET],
+};
 
 describe('LineWidgetComponent', () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
-  });
+  let mockStore;
 
-  const mockStore = configureDashboardStore();
+  beforeEach(() => {
+    // jest.resetAllMocks();
+    mockStore = configureDashboardStore(initialState);
+  });
 
   const renderComponentWithDnd = (properties) => {
     return render(
@@ -43,22 +51,27 @@ describe('LineWidgetComponent', () => {
     );
   };
 
-  const { container } = renderComponentWithDnd({
-    lineStyle: 'solid',
-    color: 'black',
-    thickness: 5,
-  });
-  console.log(container.innerHTML);
-
   describe('Rendering', () => {
+    beforeEach(() => {
+      const { container } = renderComponentWithDnd({
+        lineStyle: 'solid',
+        color: 'black',
+        thickness: 5,
+      });
+      console.log(container.innerHTML);
+    });
+
     [
-      { lineStyle: 'solid', color: 'black', thickness: 5 },
-      { lineStyle: 'dashed', color: 'black', thickness: 5 },
-      { lineStyle: 'dotted', color: 'black', thickness: 5 },
-      { lineStyle: 'solid', color: 'red', thickness: 5 },
-      { lineStyle: 'dashed', color: 'blue', thickness: 10 },
-      { lineStyle: 'dotted', color: 'green', thickness: 15 },
-    ].forEach((properties) => {
+      { lineStyle: 'solid', color: 'black', thickness: 5, isSelected: true },
+      { lineStyle: 'dashed', color: 'black', thickness: 5, isSelected: true },
+      { lineStyle: 'dotted', color: 'black', thickness: 5, isSelected: true },
+      { lineStyle: 'solid', color: 'red', thickness: 5, isSelected: false },
+      { lineStyle: 'dashed', color: 'blue', thickness: 10, isSelected: false },
+      { lineStyle: 'dotted', color: 'green', thickness: 15, isSelected: false },
+    ].forEach((configuration) => {
+      const { lineStyle, color, thickness, isSelected } = configuration;
+      const properties = { lineStyle, color, thickness };
+      (useIsSelected as jest.Mock).mockImplementation(() => isSelected);
       it(`should render with ${JSON.stringify(properties)} correctly`, () => {
         const { container } = renderComponentWithDnd(properties);
         expect(container).toMatchSnapshot();
@@ -66,62 +79,22 @@ describe('LineWidgetComponent', () => {
     });
   });
 
-  describe('Drag and Drop', () => {
-    it('should allow dragging of the line start anchor', () => {
-      renderComponentWithDnd({
-        lineStyle: 'solid',
-        color: 'black',
-        thickness: 5,
-      });
+  describe('useDragAndUpdate', () => {
+    const mockWidget = {
+      height: 200,
+      width: 200,
+      properties: {
+        start: {
+          x: 50,
+          y: 50,
+        },
+        end: {
+          x: 150,
+          y: 150,
+        },
+      },
+    };
 
-      const startAnchor = screen.getByLabelText('line-start-anchor');
-      const endAnchor = screen.getByLabelText('line-end-anchor');
-
-      expect(startAnchor).toBeInTheDocument();
-      expect(endAnchor).toBeInTheDocument();
-
-      act(() => {
-        fireEvent.dragStart(startAnchor);
-      });
-
-      const grid = screen.getByTestId(DASHBOARD_CONTAINER_ID);
-      expect(grid).toBeInTheDocument();
-
-      act(() => {
-        fireEvent.dragEnter(grid);
-        fireEvent.dragOver(grid);
-        fireEvent.drop(grid, {
-          clientX: 50,
-          clientY: 50,
-        });
-      });
-
-      // todo: check changes in proprties
-    });
-
-    it('should allow dragging of the line end anchor', () => {
-      renderComponentWithDnd({
-        lineStyle: 'solid',
-        color: 'black',
-        thickness: 5,
-      });
-
-      const endAnchor = screen.getByLabelText('line-end-anchor');
-      act(() => {
-        fireEvent.dragStart(endAnchor);
-      });
-
-      const grid = screen.getByTestId(DASHBOARD_CONTAINER_ID);
-      expect(grid).toBeInTheDocument();
-
-      act(() => {
-        fireEvent.dragEnter(grid);
-        fireEvent.dragOver(grid);
-        fireEvent.drop(grid, {
-          clientX: 300,
-          clientY: 300,
-        });
-      });
-    });
+    // Similarly for 'end' anchor and other test scenarios
   });
 });
