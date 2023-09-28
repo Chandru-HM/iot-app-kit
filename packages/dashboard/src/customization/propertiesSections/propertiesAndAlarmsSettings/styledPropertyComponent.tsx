@@ -16,6 +16,17 @@ import './propertyComponent.css';
 import { StyledAssetPropertyQuery, YAxisOptions } from '~/customization/widgets/types';
 import { getPropertyDisplay } from './getPropertyDetails';
 import type { AssetSummary } from '../../../hooks/useAssetDescriptionQueries';
+import { StatusEyeHidden, StatusEyeVisible } from './icons';
+import { CancelableEventHandler } from '@cloudscape-design/components/internal/events';
+import {
+  colorBackgroundHomeHeader,
+  colorBackgroundLayoutMain,
+  colorBorderButtonNormalDisabled,
+  spaceScaledM,
+  spaceScaledS,
+  spaceScaledXxxs,
+  spaceStaticXs,
+} from '@cloudscape-design/design-tokens';
 
 const YAxisPropertyConfig = ({
   resetStyles,
@@ -88,21 +99,48 @@ export type StyledPropertyComponentProps = {
   updateStyle: (newStyles: object) => void;
   assetSummary: AssetSummary;
   property: StyledAssetPropertyQuery;
+  onHideAssetQuery: () => void;
   onDeleteAssetQuery?: () => void;
   colorable: boolean;
+  isPropertyVisible: boolean;
 };
 
 export const StyledPropertyComponent: FC<StyledPropertyComponentProps> = ({
   assetSummary,
   property,
   updateStyle,
+  onHideAssetQuery,
   onDeleteAssetQuery,
   colorable,
+  isPropertyVisible,
 }) => {
   const { display, label } = getPropertyDisplay(property.propertyId, assetSummary);
-
+  const tooltipStyle = {
+    fontSize: spaceScaledM,
+    color: colorBackgroundHomeHeader,
+    backgroundColor: colorBackgroundLayoutMain,
+    padding: `${spaceScaledS} ${spaceScaledM}`,
+    borderRadius: spaceStaticXs,
+    borderWidth: spaceScaledXxxs,
+    borderColor: colorBorderButtonNormalDisabled,
+    boxShadow: `${spaceScaledXxxs} ${spaceScaledXxxs} ${spaceScaledXxxs} ${colorBorderButtonNormalDisabled}`,
+  };
+  const [expanded, setExpanded] = useState(isPropertyVisible);
   const resetStyles = (styleToReset: object) => {
     updateStyle(styleToReset); // as we add more sections, reset style values here
+  };
+
+  const onHideAssetQuerytest = (e) => {
+    e.stopPropagation();
+    onHideAssetQuery();
+  };
+
+  const handleMouseEnter = () => {
+    setExpanded(true);
+  };
+
+  const handleMouseLeave = () => {
+    setExpanded(false);
   };
 
   const YAxisHeader = (
@@ -111,7 +149,30 @@ export const StyledPropertyComponent: FC<StyledPropertyComponentProps> = ({
         <ColorPicker color={property.color || ''} updateColor={(newColor) => updateStyle({ color: newColor })} />
       )}
       <div style={{ fontWeight: 'normal' }}>{label}</div>
-      {/* <Button onClick={() => {}} variant='icon' iconSvg={StatusEyeVisible} /> TODO */}
+      <div>
+        <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          <Button
+            onClick={onHideAssetQuerytest}
+            variant='icon'
+            iconSvg={
+              !expanded
+                ? isPropertyVisible
+                  ? StatusEyeVisible
+                  : StatusEyeHidden
+                : !isPropertyVisible
+                ? StatusEyeVisible
+                : StatusEyeHidden
+            }
+          />
+        </span>
+      </div>
+
+      {/* <div className='palette-component-icon'>
+        <Icon />
+        <span className='tooltiptext' style={tooltipStyle}>
+          Test
+        </span>
+      </div> */}
       <Button onClick={onDeleteAssetQuery} variant='icon' iconName='remove' />
     </SpaceBetween>
   );

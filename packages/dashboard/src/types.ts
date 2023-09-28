@@ -2,7 +2,7 @@ import type { Viewport } from '@iot-app-kit/core';
 import { IoTSiteWiseClient } from '@aws-sdk/client-iotsitewise';
 import { IoTEventsClient } from '@aws-sdk/client-iot-events';
 import type { AwsCredentialIdentity, Provider } from '@aws-sdk/types';
-import { SiteWiseQuery } from '@iot-app-kit/source-iotsitewise';
+import { SiteWiseQuery } from '../../source-iotsitewise/src';
 import { IoTTwinMakerClient } from '@aws-sdk/client-iottwinmaker';
 
 export type DashboardClientCredentials = {

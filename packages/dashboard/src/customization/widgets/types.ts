@@ -3,7 +3,7 @@ import type {
   AssetPropertyQuery,
   SiteWiseAssetQuery,
   SiteWisePropertyAliasQuery,
-} from '@iot-app-kit/source-iotsitewise';
+} from '../../../../source-iotsitewise/src/time-series-data/types';
 import type { DashboardWidget } from '~/types';
 import type { AxisSettings, ComplexFontSettings, SimpleFontSettings, ThresholdWithId } from '../settings';
 import type { TableColumnDefinition, TableItem } from '@iot-app-kit/react-components/src';

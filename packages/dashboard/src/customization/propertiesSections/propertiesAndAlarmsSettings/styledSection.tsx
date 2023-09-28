@@ -72,6 +72,34 @@ export const StyledPropertiesAlarmsSection: FC<StyledPropertiesAlarmsSectionProp
       updateSiteWiseAssetQuery(newQuery);
     };
 
+    const onHideAssetQuery = (updatedAssetId: string, updatedPropertyId: string) => {
+      const newQuery = {
+        ...styledAssetQuery,
+        assets:
+          styledAssetQuery?.assets.map((asset) => {
+            if (asset.assetId === updatedAssetId) {
+              return {
+                ...asset,
+                properties: asset.properties.map((property) => {
+                  if (property.propertyId === updatedPropertyId) {
+                    if (property.visible === undefined) {
+                      return { ...property, ...{ visible: true } };
+                    }
+                    return { ...property, ...{ visible: !property.visible } };
+                  } else {
+                    return property;
+                  }
+                }),
+              };
+            } else {
+              return asset;
+            }
+          }) ?? [],
+      };
+
+      updateSiteWiseAssetQuery(newQuery);
+    };
+
     const components = styledAssetQuery?.assets.flatMap(({ assetId, properties }) =>
       properties.map((property) =>
         describedAssetsMap[assetId] ? (
@@ -80,6 +108,7 @@ export const StyledPropertiesAlarmsSection: FC<StyledPropertiesAlarmsSectionProp
             assetSummary={describedAssetsMap[assetId]}
             property={property}
             updateStyle={(newStyles: object) => onUpdatePropertyStyles(assetId, property.propertyId, newStyles)}
+            onHideAssetQuery={() => onHideAssetQuery(assetId, property.propertyId)}
             onDeleteAssetQuery={onDeleteAssetQuery({
               assetId,
               propertyId: property.propertyId,
@@ -87,6 +116,7 @@ export const StyledPropertiesAlarmsSection: FC<StyledPropertiesAlarmsSectionProp
               updateSiteWiseAssetQuery,
             })}
             colorable={colorable}
+            isPropertyVisible={property.visible ?? true}
           />
         ) : null
       )
