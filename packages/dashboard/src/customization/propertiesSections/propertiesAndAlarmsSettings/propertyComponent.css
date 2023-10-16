@@ -57,3 +57,17 @@
   visibility: visible;
   display: block;
 }
+
+.property-display-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: normal;
+  margin-block: 5px;
+  max-width: 300px;
+  width: 300px;
+}
+
+.property-display-header div {
+  flex-wrap: nowrap !important;
+}
