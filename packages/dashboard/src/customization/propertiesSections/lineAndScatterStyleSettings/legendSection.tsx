@@ -5,18 +5,32 @@ import StyleExpandableSection from '../shared/styleExpandableSection/styleExpand
 import { AlignmentDropdown } from '../components/alignmentDropdown';
 import Box from '@cloudscape-design/components/box';
 import SpaceBetween from '@cloudscape-design/components/space-between';
+import { ChartLegend } from '~/customization/widgets/types';
+import { DisplayCheckbox } from '../components/displayCheckbox';
 
 type LegendSectionOptions = {
   disabled?: boolean;
   visible?: boolean;
   position?: string;
+  visibleContent?: ChartLegend['visibleContent'];
   setVisible: (visible: boolean) => void;
   setAlignment: (position: string) => void;
+  setVisibleContent: (visibleContent: ChartLegend['visibleContent']) => void;
 };
 
-export const LegendSection: FC<LegendSectionOptions> = ({ visible, position, setVisible, setAlignment }) => {
+export const LegendSection: FC<LegendSectionOptions> = ({
+  visible,
+  position,
+  visibleContent,
+  setVisible,
+  setAlignment,
+  setVisibleContent,
+}) => {
   const handleType = (position: string) => {
     setAlignment(position);
+  };
+  const handleVisibleChange = (visibleContent: ChartLegend['visibleContent']) => {
+    setVisibleContent(visibleContent);
   };
 
   return (
@@ -24,6 +38,7 @@ export const LegendSection: FC<LegendSectionOptions> = ({ visible, position, set
       <Box padding='s'>
         <SpaceBetween size='m'>
           <AlignmentDropdown position={position} onTypeChange={handleType} />
+          <DisplayCheckbox visibleContent={visibleContent} onChange={handleVisibleChange} />
         </SpaceBetween>
       </Box>
     </StyleExpandableSection>

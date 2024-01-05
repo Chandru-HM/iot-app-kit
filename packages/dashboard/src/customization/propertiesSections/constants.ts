@@ -50,6 +50,12 @@ export const dropdownConsts = {
   },
 };
 
+export const checkboxConsts = {
+  legendDisplay: {
+    legendDisplaylist: [{ label: 'Unit', value: 'unit' }],
+  },
+};
+
 export const LINE_RESOLUTION_OPTIONS: SelectProps.Option[] = [
   { label: '1 min', value: '1m' },
   { label: '15 min', value: '15m' },

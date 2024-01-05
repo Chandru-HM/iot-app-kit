@@ -186,6 +186,7 @@ const BaseChart = ({ viewport, queries, size = { width: 500, height: 500 }, ...o
         return ['se'];
     }
   };
+  console.log('isBottomAligned', options.legend);
 
   return (
     <div className={`base-chart-container ${options.legend?.position}-position`}>

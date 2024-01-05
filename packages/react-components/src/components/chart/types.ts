@@ -111,3 +111,8 @@ export type YAxisLegendOption = {
   color?: string;
   significantDigits?: number;
 };
+
+export type VisibleContent = {
+  unit?: boolean;
+  asset?: boolean;
+};
