@@ -11,7 +11,7 @@
   height: var(--selection-box-size);
   border: var(--selection-border-width) solid;
   border-color: inherit;
-  background: var(--selection-bg-color);
+  /* background: var(--selection-bg-color); */
   border-radius: var(--selection-radius-small);
   pointer-events: all;
 }

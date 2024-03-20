@@ -13,6 +13,7 @@ import { TableColumnDefinition, TableItem, TableItemHydrated } from './types';
 import { createTableItems } from './createTableItems';
 import { DEFAULT_TABLE_MESSAGES } from './messages';
 import { TableProps as TableBaseProps } from '@cloudscape-design/components';
+import { useTheme } from '../../hooks/useTheming';
 
 const DEFAULT_VIEWPORT: Viewport = { duration: '10m' };
 
@@ -49,6 +50,33 @@ export const Table = ({
   | 'empty'
   | 'preferences'
 >) => {
+  useTheme({
+    mode: 'dark',
+    tokens: {
+      colorBackgroundButtonNormalActive: 'red',
+      colorBackgroundButtonNormalDefault: 'green',
+      colorBackgroundButtonNormalDisabled: 'blue',
+      colorBackgroundButtonNormalHover: 'purple',
+      colorBackgroundButtonPrimaryActive: 'orange',
+      colorBackgroundButtonPrimaryDisabled: 'cyan',
+      colorBackgroundButtonPrimaryHover: 'magenta',
+      borderRadiusButton: '2px',
+      borderRadiusContainer: '2px',
+      borderRadiusDropdown: '2px',
+      borderRadiusInput: '2px',
+      colorBorderButtonNormalActive: '#02f0fc',
+      colorBorderButtonNormalDefault: '#920ea9',
+      colorBorderButtonNormalDisabled: '#0cf714',
+      colorBorderButtonNormalHover: '#f2da03',
+      colorBorderButtonPrimaryDisabled: '#d80505',
+      colorTextButtonNormalActive: '#02f0fc',
+      colorTextButtonNormalDefault: '#920ea9',
+      colorTextButtonNormalHover: '#0cf714',
+      colorTextButtonPrimaryActive: '#f2da03',
+      colorTextButtonPrimaryDefault: '#d80505',
+      colorTextButtonPrimaryHover: '#1f5ce0',
+    },
+  });
   const { dataStreams, thresholds: queryThresholds } = useTimeSeriesData({
     viewport: passedInViewport,
     queries,

@@ -7,6 +7,10 @@ import './selectionBoxAnchor.css';
 import type { Anchor } from '~/store/actions';
 import WidgetActions from './widgetActions';
 import { useSelectedWidgets } from '~/hooks/useSelectedWidgets';
+import {
+  colorBackgroundContainerContent,
+  colorBackgroundLayoutMain,
+} from '@cloudscape-design/design-tokens';
 
 const CORNERS: Anchor[] = [
   'top-left',
@@ -29,6 +33,9 @@ const SelectionBoxAnchor: React.FC<SelectionBoxAnchorProps> = ({ anchor }) => {
   const cornerClass = isCorner
     ? `selection-box-corner selection-box-corner-${anchor}`
     : '';
+  const cornerStyle = isCorner
+    ? { backgroundColor: colorBackgroundContainerContent }
+    : {};
   const sideClass = isSide
     ? `selection-box-side selection-box-side-${anchor}`
     : '';
@@ -45,6 +52,7 @@ const SelectionBoxAnchor: React.FC<SelectionBoxAnchorProps> = ({ anchor }) => {
         {...gestureable('resize')}
         {...anchorable(anchor)}
         className={anchorClass}
+        style={cornerStyle}
       />
     </>
   );

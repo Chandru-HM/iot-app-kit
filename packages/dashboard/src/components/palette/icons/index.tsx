@@ -1,13 +1,13 @@
 import React, { useState, type DragEventHandler, useEffect } from 'react';
 import Box from '@cloudscape-design/components/box';
 import {
-  colorBackgroundHomeHeader,
   colorBackgroundLayoutMain,
   colorBorderButtonNormalDisabled,
   spaceScaledS,
   spaceScaledM,
   spaceStaticXs,
   spaceScaledXxxs,
+  colorTextButtonNormalActive,
 } from '@cloudscape-design/design-tokens';
 import './index.css';
 
@@ -23,7 +23,7 @@ const PaletteComponentIcon: React.FC<PaletteComponentIconProps> = ({
 
   const tooltipStyle = {
     fontSize: spaceScaledM,
-    color: colorBackgroundHomeHeader,
+    color: colorTextButtonNormalActive,
     backgroundColor: colorBackgroundLayoutMain,
     padding: `${spaceScaledS} ${spaceScaledM}`,
     borderRadius: spaceStaticXs,

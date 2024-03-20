@@ -1,7 +1,9 @@
 import React, { useRef, useState } from 'react';
 import './tooltip.css';
 import {
-  colorBackgroundHomeHeader,
+  colorBackgroundContainerContent,
+  colorBorderButtonNormalActive,
+  colorTextButtonNormalActive,
   spaceScaledM,
   spaceStaticS,
   spaceStaticXs,
@@ -26,11 +28,11 @@ export const Tooltip = ({
   const [isContentWrapped, setIsContentWrapped] = useState(false);
   const tooltipStyle = {
     fontSize: spaceScaledM,
-    color: colorBackgroundHomeHeader,
-    backgroundColor: '#ffffff',
+    color: colorTextButtonNormalActive,
+    backgroundColor: `${colorBackgroundContainerContent}`,
     padding: spaceStaticS,
     borderRadius: spaceStaticXs,
-    border: `${spaceStaticXxxs} solid ${colorBackgroundHomeHeader}`,
+    border: `${spaceStaticXxxs} solid ${colorBorderButtonNormalActive}`,
     maxWidth: `${MAX_TOOLTIP_WIDTH}px`,
     ...(isContentWrapped && { width: `${MAX_TOOLTIP_WIDTH}px` }),
     ...(isContentWrapped && position !== 'bottom'

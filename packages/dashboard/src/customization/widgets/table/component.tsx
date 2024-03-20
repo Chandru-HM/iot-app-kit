@@ -9,7 +9,7 @@ import {
   Table,
   TableColumnDefinition,
   useViewport,
-} from '@iot-app-kit/react-components';
+} from '../../../../../react-components/src';
 
 import EmptyTableComponent from './emptyTableComponent';
 

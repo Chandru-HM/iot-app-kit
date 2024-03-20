@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPlugin } from '@iot-app-kit/core';
 
 import {
-  colorBackgroundButtonPrimaryDefault,
   colorBackgroundButtonNormalDefault,
   spaceStaticXl,
   spaceStaticL,
   spaceStaticXs,
   spaceStaticXxxs,
+  colorBorderButtonNormalDefault,
 } from '@cloudscape-design/design-tokens';
 import {
   CancelableEventHandler,
@@ -115,7 +115,7 @@ const WidgetActions = ({ widget }: { widget: DashboardWidget }) => {
         height: `${spaceStaticXl}`,
         right: `${spaceStaticL}`,
         borderRadius: `${spaceStaticXs}`,
-        border: `2px solid ${colorBackgroundButtonPrimaryDefault}`,
+        border: `2px solid ${colorBorderButtonNormalDefault}`,
         backgroundColor: `${colorBackgroundButtonNormalDefault}`,
         pointerEvents: 'auto',
       }}
