@@ -21,6 +21,7 @@ import './gauge.css';
  * @return {ReactElement} The rendered gauge component.
  */
 export const GaugeBase: React.FC<GaugeBaseProperties> = ({
+  size,
   propertyPoint,
   thresholds = [],
   settings,
@@ -58,7 +59,14 @@ export const GaugeBase: React.FC<GaugeBaseProperties> = ({
         !error ? 'gauge-base-component' : 'gauge-base-component-error'
       }
     >
-      <div ref={ref} className='gauge-base' />
+      <div
+        ref={ref}
+        className='gauge-base'
+        style={{
+          width: size?.width,
+          height: size?.height,
+        }}
+      />
       <GaugeErrorText error={error} />
       <GaugeDataQualityText
         error={error}
