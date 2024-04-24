@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import pickBy from 'lodash/pickBy';
-import { Gauge, useViewport } from '../../../../../react-components/src';
+import { Gauge, useViewport } from '@iot-app-kit/react-components';
 import { createWidgetRenderKey } from '../utils/createWidgetRenderKey';
 import type { DashboardState } from '~/store/state';
 import type { GaugeWidget } from '../types';
@@ -24,6 +24,9 @@ const GaugeWidgetComponent: React.FC<GaugeWidget> = (widget) => {
     queryConfig,
     showUnit,
     showName,
+    showDataQuality,
+    showAggregationAndResolution,
+    showTimestamp,
     thresholds,
     significantDigits: widgetSignificantDigits,
     yMin,
@@ -49,9 +52,10 @@ const GaugeWidgetComponent: React.FC<GaugeWidget> = (widget) => {
       yMin,
       yMax,
       showName,
-
+      showDataQuality,
+      showAggregationAndResolution,
+      showTimestamp,
       showUnit,
-
       fontSize: 40,
     },
     isDefined

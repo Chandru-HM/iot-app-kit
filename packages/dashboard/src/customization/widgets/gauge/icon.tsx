@@ -1,10 +1,12 @@
 import React from 'react';
-import { default as KPISvg } from './KPI.svg';
-import { default as KPISvgDark } from './KPI-dark.svg';
+import { default as KPISvg } from './gauge.svg';
+import { default as KPISvgDark } from './gauge-dark.svg';
 import WidgetIcon from '../components/widgetIcon';
 
-const KPIIcon = () => {
-  return <WidgetIcon widget='KPI' defaultIcon={KPISvg} darkIcon={KPISvgDark} />;
+const GaugeIcon = () => {
+  return (
+    <WidgetIcon widget='gauge' defaultIcon={KPISvg} darkIcon={KPISvgDark} />
+  );
 };
 
-export default KPIIcon;
+export default GaugeIcon;

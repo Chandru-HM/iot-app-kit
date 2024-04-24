@@ -242,6 +242,9 @@ export type GaugeProperties = QueryProperties & {
   gaugeThickness?: number;
   showName?: boolean;
   showUnit?: boolean;
+  showDataQuality?: boolean;
+  showAggregationAndResolution?: boolean;
+  showTimestamp?: boolean;
   fontSize?: number;
   labelFontSize?: number;
   unitFontSize?: number;

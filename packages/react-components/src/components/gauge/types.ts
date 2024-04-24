@@ -30,6 +30,9 @@ export type GaugeSettings = {
   gaugeThickness?: number;
   showName?: boolean;
   showUnit?: boolean;
+  showDataQuality?: boolean;
+  showAggregationAndResolution?: boolean;
+  showTimestamp?: boolean;
   fontSize?: number; // pixels
   labelFontSize?: number; // pixels
   unitFontSize?: number; // pixels

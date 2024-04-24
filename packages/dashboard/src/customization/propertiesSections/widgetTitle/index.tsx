@@ -15,6 +15,7 @@ const isWidgetTitle = (
   !(
     w.type === 'kpi' ||
     w.type === 'status' ||
+    w.type === 'gauge' ||
     w.type === 'table' ||
     w.type === 'text'
   );

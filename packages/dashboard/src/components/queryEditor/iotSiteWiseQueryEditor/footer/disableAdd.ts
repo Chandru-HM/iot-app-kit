@@ -28,6 +28,23 @@ export const disableAdd = (
       }
       break;
     }
+    case 'gauge': {
+      const modeledProperties =
+        get(selectedWidget, 'properties.queryConfig.query.assets') ?? [];
+      const unmodeledProperties =
+        get(selectedWidget, 'properties.queryConfig.query.properties') ?? [];
+      const assetModelProperties =
+        get(selectedWidget, 'properties.queryConfig.query.assetModels') ?? [];
+      if (
+        modeledProperties.length ||
+        unmodeledProperties.length ||
+        assetModelProperties.length ||
+        collectionPropsLength !== 1
+      ) {
+        widgetBasedDisable = true;
+      }
+      break;
+    }
     default:
   }
   return (

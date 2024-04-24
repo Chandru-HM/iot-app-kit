@@ -4,6 +4,8 @@ import { StyledExpandableSection } from '../components/StyledExpandableSection';
 import { PropertyLens } from '~/customization/propertiesSection';
 import { PropertiesSection } from '~/customization/propertiesSectionComponent';
 import {
+  GaugeProperties,
+  GaugeWidget,
   KPIProperties,
   KPIWidget,
   StatusProperties,
@@ -11,17 +13,23 @@ import {
 import { DashboardWidget } from '~/types';
 import { maybeWithDefault } from '~/util/maybe';
 
-const widgetWithCustomDisplaySettings: readonly string[] = ['kpi', 'status'];
+const widgetWithCustomDisplaySettings: readonly string[] = [
+  'kpi',
+  'status',
+  'gauge',
+];
 
 export const isDisplaySettingsWidget = (
   widget: DashboardWidget
-): widget is KPIWidget =>
+): widget is KPIWidget | GaugeWidget =>
   widgetWithCustomDisplaySettings.some((t) => t === widget.type);
 
 const RenderDisplaySettingsSection = ({
   useProperty,
 }: {
-  useProperty: PropertyLens<DashboardWidget<KPIProperties | StatusProperties>>;
+  useProperty: PropertyLens<
+    DashboardWidget<KPIProperties | StatusProperties | GaugeProperties>
+  >;
 }) => {
   const [maybeShowName, updateShowName] = useProperty(
     (properties) => properties.showName,

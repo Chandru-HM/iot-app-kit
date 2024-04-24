@@ -1,11 +1,11 @@
 import React from 'react';
 import GaugeWidgetComponent from './component';
-import KPIIcon from './icon';
+import GaugeIcon from './icon';
 import type { DashboardPlugin } from '~/customization/api';
 import type { GaugeWidget } from '../types';
 import {
-  KPI_WIDGET_INITIAL_HEIGHT,
-  KPI_WIDGET_INITIAL_WIDTH,
+  GAUGE_WIDGET_INITIAL_HEIGHT,
+  GAUGE_WIDGET_INITIAL_WIDTH,
 } from '../constants';
 
 export const gaugePlugin: DashboardPlugin = {
@@ -14,7 +14,7 @@ export const gaugePlugin: DashboardPlugin = {
       render: (widget) => <GaugeWidgetComponent {...widget} />,
       componentLibrary: {
         name: 'Gauge',
-        icon: KPIIcon,
+        icon: GaugeIcon,
       },
       properties: () => ({
         queryConfig: {
@@ -23,6 +23,9 @@ export const gaugePlugin: DashboardPlugin = {
         },
         showName: true,
         showUnit: true,
+        showAggregationAndResolution: true,
+        showDataQuality: true,
+        showTimestamp: true,
         yMin: 0,
         yMax: 100,
         thresholds: [
@@ -48,8 +51,8 @@ export const gaugePlugin: DashboardPlugin = {
         significantDigits: 4,
       }),
       initialSize: {
-        height: KPI_WIDGET_INITIAL_HEIGHT,
-        width: KPI_WIDGET_INITIAL_WIDTH,
+        height: GAUGE_WIDGET_INITIAL_HEIGHT,
+        width: GAUGE_WIDGET_INITIAL_WIDTH,
       },
     });
   },

@@ -20,3 +20,21 @@
   display: flex;
   align-items: center;
 }
+
+.timestamp-container {
+  color: #414d5c;
+}
+
+.aggregation {
+  padding: 6px;
+}
+
+.timestamp {
+  padding: 6px;
+  height: 18px;
+}
+
+.timestamp-border {
+  height: 2px;
+  background-color: #e9ebed;
+}

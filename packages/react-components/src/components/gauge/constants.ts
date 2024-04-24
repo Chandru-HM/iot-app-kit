@@ -1,5 +1,9 @@
 export const DEFAULT_GAUGE_PROGRESS_COLOR = '#0173BC';
 export const DEFAULT_GAUGE_SETTINGS = {
+  // default settings
+  showAggregationAndResolution: true,
+  showDataQuality: true,
+  showTimestamp: true,
   series: [
     {
       type: 'gauge',
